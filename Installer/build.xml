@@ -1,0 +1,33 @@
+<project name="BestSalary" basedir="." default="header">
+
+    <property file="../DbLayer/src/main/resources/db/config/${P}/${P}.properties"/>
+    <property file="default.properties"/>
+
+    <property name="maven-home" value="${maven-installation-dir}/apache-maven-${maven.version}"/>
+    <property name="ant-home" value="${maven-installation-dir}/apache-ant-${maven.version}"/>
+
+    <target name="header">
+        <echo>---------------------Created by Victor Zagnitko---------------------</echo>
+        <echo>Tomcat version: ${tomcat.version}</echo>
+        <echo>Maven version: ${maven.version}</echo>
+        <echo>Ant version: ${tomcat-home}</echo>
+    </target>
+
+    <condition property="isWindows">
+        <os family="windows"/>
+    </condition>
+
+    <condition property="isUnix">
+        <os family="unix"/>
+    </condition>
+
+    <!-- install tomcat -->
+    <target name="install-tomcat" depends=""/>
+
+    <target name="uninstall-tomcat">
+        <delete dir = "${tomcat-home}" />
+    </target>
+    <!-- end -->
+
+
+</project>

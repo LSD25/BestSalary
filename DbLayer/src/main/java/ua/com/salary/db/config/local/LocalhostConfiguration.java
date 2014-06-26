@@ -11,7 +11,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 @Configuration
 @Conditional(value = LocalhostCondition.class)
-@PropertySource(value = "classpath:/db/config/local/localhost.properties")
+@PropertySource(value = "classpath:/db/config/local/local.properties")
 public class LocalhostConfiguration {
 
     public LocalhostConfiguration() {

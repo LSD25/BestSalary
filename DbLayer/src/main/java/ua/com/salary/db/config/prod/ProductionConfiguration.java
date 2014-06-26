@@ -11,7 +11,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 @Configuration
 @Conditional(value = ProductionCondition.class)
-@PropertySource(value = "classpath:/db/config/prod/production.properties")
+@PropertySource(value = "classpath:/db/config/prod/prod.properties")
 public class ProductionConfiguration {
 
     public ProductionConfiguration() {

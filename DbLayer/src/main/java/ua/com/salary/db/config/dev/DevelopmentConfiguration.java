@@ -11,7 +11,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  */
 @Configuration
 @Conditional(value = DevelopmentCondition.class)
-@PropertySource(value = "classpath:/db/config/dev/development.properties")
+@PropertySource(value = "classpath:/db/config/dev/dev.properties")
 public class DevelopmentConfiguration {
 
     public DevelopmentConfiguration() {
