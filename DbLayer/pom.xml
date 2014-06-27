@@ -151,7 +151,7 @@
     <profiles>
 
         <profile>
-            <id>production-env</id>
+            <id>prod</id>
             <build>
                 <plugins>
                     <plugin>
@@ -163,7 +163,7 @@
                                 <phase>process-resources</phase>
                                 <configuration>
                                     <propertyFileWillOverride>true</propertyFileWillOverride>
-                                    <propertyFile>/src/main/resources/db/config/prod/production.properties
+                                    <propertyFile>/src/main/resources/db/config/prod/prod.properties
                                     </propertyFile>
                                 </configuration>
                                 <goals>
@@ -177,7 +177,7 @@
         </profile>
 
         <profile>
-            <id>development-env</id>
+            <id>dev</id>
             <build>
                 <plugins>
                     <plugin>
@@ -189,7 +189,7 @@
                                 <phase>process-resources</phase>
                                 <configuration>
                                     <propertyFileWillOverride>true</propertyFileWillOverride>
-                                    <propertyFile>/src/main/resources/db/config/dev/development.properties
+                                    <propertyFile>/src/main/resources/db/config/dev/dev.properties
                                     </propertyFile>
                                 </configuration>
                                 <goals>
@@ -203,7 +203,7 @@
         </profile>
 
         <profile>
-            <id>localhost-env</id>
+            <id>local</id>
             <build>
                 <plugins>
                     <plugin>
@@ -215,7 +215,7 @@
                                 <phase>process-resources</phase>
                                 <configuration>
                                     <propertyFileWillOverride>true</propertyFileWillOverride>
-                                    <propertyFile>/src/main/resources/db/config/local/localhost.properties
+                                    <propertyFile>/src/main/resources/db/config/local/local.properties
                                     </propertyFile>
                                 </configuration>
                                 <goals>

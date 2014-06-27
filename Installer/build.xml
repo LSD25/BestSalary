@@ -1,6 +1,6 @@
 <project name="BestSalary" basedir="." default="header">
 
-    <property file="../DbLayer/src/main/resources/db/config/${P}/${P}.properties"/>
+    <!--<property file="../DbLayer/src/main/resources/db/config/${P}/${P}.properties"/>-->
     <property file="default.properties"/>
 
     <property name="maven-home" value="${maven-installation-dir}/apache-maven-${maven-version}"/>
@@ -11,6 +11,7 @@
         <echo>Tomcat version: ${tomcat-version}</echo>
         <echo>Maven version: ${maven-version}</echo>
         <echo>Ant version: ${ant-version}</echo>
+        <echo>Git version: ${git-version}</echo>
     </target>
 
     <condition property="isWindows">
@@ -74,46 +75,46 @@
     <!-- Deploy scripts -->
 
     <!-- TODO: added the value (tomcat home -->
-    <target name="deploy-web-production">
+    <target name="deploy-web-prod" depends="install-tomcat, build-project">
         <antcall target="deploy-web">
             <param name="war" value=""/>
         </antcall>
     </target>
 
     <!-- TODO: added the value (tomcat home -->
-    <target name="deploy-web-dev">
+    <target name="deploy-web-dev" depends="install-tomcat, build-project">
         <antcall target="deploy-web">
             <param name="war" value=""/>
         </antcall>
     </target>
 
     <!-- TODO: added the value (tomcat home -->
-    <target name="deploy-ws-production">
+    <target name="deploy-ws-prod" depends="install-tomcat, build-project">
         <antcall target="deploy-ws">
             <param name="war" value=""/>
         </antcall>
     </target>
 
     <!-- TODO: added the value (tomcat home -->
-    <target name="deploy-ws-dev">
+    <target name="deploy-ws-dev" depends="install-tomcat, build-project">
         <antcall target="deploy-ws">
             <param name="war" value=""/>
         </antcall>
     </target>
 
-    <target name="deploy-ws-loc">
+    <target name="deploy-ws-local" depends="install-tomcat, build-project">
         <antcall target="deploy-ws">
             <param name="war" value="${tomcat-home}/webapps/ROOT/"/>
         </antcall>
     </target>
 
-    <target name="deploy-web-loc">
+    <target name="deploy-web-local" depends="install-tomcat, build-project">
         <antcall target="deploy-web">
             <param name="war" value="${tomcat-home}/webapps/ROOT/"/>
         </antcall>
     </target>
 
-    <target name="deploy-ws">
+    <target name="deploy-ws" depends="header">
         <delete dir="${basedir}/software/installed/apache-tomcat-${tomcat-version}/webapps"/>
         <copy file="../build/WebServices/web-services.war" tofile="${war}/web-services.war"/>
         <unwar src="${war}/web-services.war" dest="${war}" overwrite="true"/>
@@ -121,7 +122,7 @@
         <antcall target="start-tomcat-linux"/>
     </target>
 
-    <target name="deploy-web">
+    <target name="deploy-web" depends="header">
         <delete dir="${basedir}/software/installed/apache-tomcat-${tomcat-version}/webapps"/>
         <copy file="../build/Web/web.war" tofile="${war}/web.war"/>
         <unwar src="${war}/web.war" dest="${war}" overwrite="true"/>
@@ -136,10 +137,64 @@
     </target>
 
     <target name="start-tomcat-linux" if="isUnix">
-        <exec dir="${tomcat-home}/bin/" executable="cmd">
-            <arg line="/c startup.bat"/>
+        <exec dir="${tomcat-home}/bin/" executable="/bin/bash">
+            <arg line="sudo startup.sh"/>
         </exec>
     </target>
+
+    <!-- Build the project -->
+
+    <target name="build-project">
+        <exec dir="../" executable="cmd">
+            <arg line="/c mvn -T 4C clean install -P ${P}"/>
+        </exec>
+    </target>
+
+    <!-- end -->
+
+    <!-- Git -->
+
+    <!-- Git install -->
+
+    <target name="install-git" depends="header">
+        <antcall target="install-git-windows"/>
+        <antcall target="install-git-linux"/>
+    </target>
+
+    <target name="install-git-windows" if="isWindows">
+        <exec dir="${basedir}/software/install/" executable="cmd">
+            <arg line="/c start Git-${git-version}"/>
+        </exec>
+    </target>
+
+    <target name="install-git-linux" if="isUnix">
+        <exec executable="/bin/bash">
+            <arg line="sudo apt-get install git"/>
+        </exec>
+    </target>
+
+    <!-- end -->
+
+    <!-- Git clone -->
+    <target name="git-clone" depends="install-git">
+        <antcall target="git-clone-windows"/>
+        <antcall target="git-clone-linux"/>
+    </target>
+
+    <target name="git-clone-windows" depends="install-git" if="isWindows">
+        <exec executable="cmd">
+            <arg line = "/c git clone ${git-repository}"/>
+        </exec>
+    </target>
+
+    <target name="git-clone-linux" depends="install-git" if="isUnix">
+        <exec executable="/bin/bash">
+            <arg line = "sudo git clone ${git-repository}"/>
+        </exec>
+    </target>
+
+    <!-- end -->
+
     <!-- end -->
 
 </project>
