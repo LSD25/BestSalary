@@ -1,0 +1,8 @@
+#HEAP_SIZE="2000m"
+#PERM_SIZE="500m"
+#CODE_SIZE="200m"
+
+#MEMORY="-Xmx$HEAP_SIZE -Xms$HEAP_SIZE -XX:PermSize=$PERM_SIZE -XX:MaxPermSize=$PERM_SIZE -XX:ReservedCodeCacheSize=$CODE_SIZE -XX:InitialCodeCacheSize=$CODE_SIZE"
+#JAVA_OPTS="-server $MEMORY $VARIA"
+
+echo $JAVA_OPTS

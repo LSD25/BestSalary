@@ -1,4 +1,5 @@
 **/build/**
 /.idea/**
-*.iml
-*.yml
+**/installed/**
+**.iml
+**.yml

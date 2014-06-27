@@ -3,14 +3,14 @@
     <property file="../DbLayer/src/main/resources/db/config/${P}/${P}.properties"/>
     <property file="default.properties"/>
 
-    <property name="maven-home" value="${maven-installation-dir}/apache-maven-${maven.version}"/>
-    <property name="ant-home" value="${maven-installation-dir}/apache-ant-${maven.version}"/>
+    <property name="maven-home" value="${maven-installation-dir}/apache-maven-${maven-version}"/>
+    <property name="ant-home" value="${maven-installation-dir}/apache-ant-${maven-version}"/>
 
     <target name="header">
-        <echo>---------------------Created by Victor Zagnitko---------------------</echo>
-        <echo>Tomcat version: ${tomcat.version}</echo>
-        <echo>Maven version: ${maven.version}</echo>
-        <echo>Ant version: ${tomcat-home}</echo>
+        <echo>---------------------Created by LSD25 (Victor Zagnitko)---------------------</echo>
+        <echo>Tomcat version: ${tomcat-version}</echo>
+        <echo>Maven version: ${maven-version}</echo>
+        <echo>Ant version: ${ant-version}</echo>
     </target>
 
     <condition property="isWindows">
@@ -21,13 +21,125 @@
         <os family="unix"/>
     </condition>
 
-    <!-- install tomcat -->
-    <target name="install-tomcat" depends=""/>
+    <!-- install tomcat script -->
+    <target name="install-tomcat"
+            depends="header, change-attribute, uninstall-tomcat, extract-tomcat, configure-tomcat"/>
+
+    <target name="change-attribute" if="isWindows"><!--attrib -r c:\folder\*.* /s -->
+        <exec executable="cmd">
+            <arg value="attrib"/>
+            <arg value="-r"/>
+            <arg value="${basedir}/software/install/*.*"/>
+            <arg value="/s"/>
+        </exec>
+    </target>
 
     <target name="uninstall-tomcat">
-        <delete dir = "${tomcat-home}" />
+        <delete dir="${tomcat-home}"/>
     </target>
+
+    <target name="extract-tomcat">
+        <unzip src="${basedir}/software/install/apache-tomcat-${tomcat-version}.zip"
+               dest="${basedir}/software/installed/" overwrite="true"/>
+        <delete dir="${tomcat-home}/webapps/ws"/>
+        <delete dir="${tomcat-home}/webapps/web"/>
+    </target>
+
+    <target name="configure-tomcat">
+        <antcall target="copy-setenv-on-os"/>
+        <delete dir="${tomcat-home}/webapps"/>
+    </target>
+
+    <target name="copy-setenv-on-os" depends="copy-setenv-on-linux, copy-setenv-on-windows"/>
+
+    <target name="copy-setenv-on-linux" if="isUnix">
+        <antcall target="copy-setenv">
+            <param name="file" value="setenv.sh"/>
+        </antcall>
+    </target>
+
+    <target name="copy-setenv-on-windows" if="isWindows">
+        <antcall target="copy-setenv">
+            <param name="file" value="setenv.bat"/>
+        </antcall>
+    </target>
+
+    <target name="copy-setenv">
+        <copy file="${file}" tofile="${tomcat-home}/bin/${file}" overwrite="true"/>
+    </target>
+
     <!-- end -->
 
+
+    <!-- Deploy scripts -->
+
+    <!-- TODO: added the value (tomcat home -->
+    <target name="deploy-web-production">
+        <antcall target="deploy-web">
+            <param name="war" value=""/>
+        </antcall>
+    </target>
+
+    <!-- TODO: added the value (tomcat home -->
+    <target name="deploy-web-dev">
+        <antcall target="deploy-web">
+            <param name="war" value=""/>
+        </antcall>
+    </target>
+
+    <!-- TODO: added the value (tomcat home -->
+    <target name="deploy-ws-production">
+        <antcall target="deploy-ws">
+            <param name="war" value=""/>
+        </antcall>
+    </target>
+
+    <!-- TODO: added the value (tomcat home -->
+    <target name="deploy-ws-dev">
+        <antcall target="deploy-ws">
+            <param name="war" value=""/>
+        </antcall>
+    </target>
+
+    <target name="deploy-ws-loc">
+        <antcall target="deploy-ws">
+            <param name="war" value="${tomcat-home}/webapps/ROOT/"/>
+        </antcall>
+    </target>
+
+    <target name="deploy-web-loc">
+        <antcall target="deploy-web">
+            <param name="war" value="${tomcat-home}/webapps/ROOT/"/>
+        </antcall>
+    </target>
+
+    <target name="deploy-ws">
+        <delete dir="${basedir}/software/installed/apache-tomcat-${tomcat-version}/webapps"/>
+        <copy file="../build/WebServices/web-services.war" tofile="${war}/web-services.war"/>
+        <unwar src="${war}/web-services.war" dest="${war}" overwrite="true"/>
+        <antcall target="start-tomcat-windows"/>
+        <antcall target="start-tomcat-linux"/>
+    </target>
+
+    <target name="deploy-web">
+        <delete dir="${basedir}/software/installed/apache-tomcat-${tomcat-version}/webapps"/>
+        <copy file="../build/Web/web.war" tofile="${war}/web.war"/>
+        <unwar src="${war}/web.war" dest="${war}" overwrite="true"/>
+        <antcall target="start-tomcat-windows"/>
+        <antcall target="start-tomcat-linux"/>
+    </target>
+
+    <target name="start-tomcat-windows" if="isWindows">
+        <exec dir="${tomcat-home}/bin/" executable="cmd">
+            <arg line="/c startup.bat"/>
+        </exec>
+    </target>
+
+    <target name="start-tomcat-linux" if="isUnix">
+        <exec dir="${tomcat-home}/bin/" executable="cmd">
+            <arg line="/c startup.bat"/>
+        </exec>
+    </target>
+    <!-- end -->
 
 </project>
