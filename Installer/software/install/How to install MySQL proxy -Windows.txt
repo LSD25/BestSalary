@@ -1,0 +1,10 @@
+sc create "Proxy" DisplayName= "MySQL Proxy" start= "auto" binPath="C:\Program Files\MySQL\mysql-proxy-0.8.4-win32-x86\bin\mysql-proxy-svc.exe --defaults-file= C:\Program Files\MySQL\mysql-proxy-0.8.4-win32-x86\mysql-proxy.cnf"
+  
+net start proxy
+  
+[mysql-proxy]
+daemon = true
+log-file = "C:\Program Files\MySQL\mysql-proxy-0.8.4-win32-x86\mysql-proxy.log"
+log-level = debug
+proxy-address = 127.0.0.1:4040
+proxy-backend-addresses = 127.0.0.1:3306
