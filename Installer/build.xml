@@ -146,7 +146,18 @@
     <!-- Build the project -->
 
     <target name="build-project">
-        <exec dir="../" executable="cmd">
+        <antcall target="build-project-windows"/>
+        <antcall target="build-project-linux"/>
+    </target>
+
+    <target name="build-project-windows" if="isWindows">
+        <exec dir="../" executable="cmd" os="Windows">
+            <arg line="/c mvn -T 4C clean install -P ${P}"/>
+        </exec>
+    </target>
+
+    <target name="build-project-linux" if="isUnix">
+        <exec dir="../" executable="sh" os="Linux">
             <arg line="/c mvn -T 4C clean install -P ${P}"/>
         </exec>
     </target>
