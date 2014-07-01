@@ -1,5 +1,6 @@
 package ua.com.salary.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.google.common.base.Objects;
 
 import javax.persistence.*;
@@ -31,7 +32,8 @@ public class Employer extends ABasicEntity {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
     @JoinColumn(name = "dep_id", nullable = false)
     private Department department;
 

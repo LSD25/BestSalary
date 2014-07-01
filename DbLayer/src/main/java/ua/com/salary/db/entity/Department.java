@@ -1,5 +1,6 @@
 package ua.com.salary.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.common.base.Objects;
 
 import javax.persistence.*;
@@ -26,7 +27,8 @@ public class Department extends ABasicEntity {
     @Column(name = "dep_name", nullable = false, length = 100)
     private String departmentName;
 
-    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Employer> employers;
 
     public Department() {

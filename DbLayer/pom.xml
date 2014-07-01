@@ -69,6 +69,24 @@
             <version>${commons-dbcp-vesrion}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-annotations-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-annotations-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-annotations-version}</version>
+        </dependency>
+
         <!--<dependency>-->
         <!--<groupId>com.google.code.gson</groupId>-->
         <!--<artifactId>gson</artifactId>-->
@@ -236,6 +254,7 @@
         <hibernate-version>4.2.13.Final</hibernate-version>
         <javassist-version>3.18.2-GA</javassist-version>
         <commons-dbcp-vesrion>1.4</commons-dbcp-vesrion>
+        <jackson-annotations-version>2.4.1</jackson-annotations-version>
         <!--<aspectj-version>1.8.1</aspectj-version>-->
         <!-- plugins -->
         <liquibase-maven-plugin-version>3.2.0</liquibase-maven-plugin-version>
