@@ -158,7 +158,7 @@
 
     <target name="build-project-linux" if="isUnix">
         <exec dir="../" executable="sh" os="Linux">
-            <arg line="/c mvn -T 4C clean install -P ${P}"/>
+            <arg line="-c mvn -T 4C clean install -P ${P}"/>
         </exec>
     </target>
 
