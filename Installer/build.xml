@@ -198,6 +198,28 @@
 
     <!-- end -->
 
+    <!-- Git pull -->
+    <target name="git-pull" depends="git-clone">
+        <antcall target="git-pull-windows"/>
+        <antcall target="git-pull-linux"/>
+    </target>
+
+    <target name="git-pull-windows" if="isWindows">
+        <exec executable="cmd" os="Windows">
+            <arg value="-c"/>
+            <arg value="git pull"/>
+        </exec>
+    </target>
+
+    <target name="git-pull-linux" if="isUnix">
+        <exec executable="sh" os="Linux">
+            <arg value="-c"/>
+            <arg value="git pull"/>
+        </exec>
+    </target>
+
+    <!-- end -->
+
     <!-- Added MySQL repository for Debian -->
 
     <target name="add-repository" if="isUnix">
@@ -237,5 +259,9 @@
     </target>
 
     <!-- end -->
+
+    <target name="test">
+        <echo>The git pull is working correct!!!</echo>
+    </target>
 
 </project>
