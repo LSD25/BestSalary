@@ -1,0 +1,8 @@
+ant deploy-web-dev -DP=dev #For the deploy-web-dev war
+ant deploy-web-local -DP=local #For the deploy-web-local war
+and deploy-web-prod -DP=prod #For the deploy-web-prod war
+ant deploy-ws-dev -DP=dev #For the deploy-ws-dev war
+ant deploy-ws-local -DP=local #For the deploy-ws-local war
+ant deploy-ws-prod -DP=prod #For the deploy-ws-prod war
+ant git-clone #For the git clone project
+ant install-tomcat #For the install tomcat

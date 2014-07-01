@@ -1,1 +1,0 @@
-call ant deploy-web-production
