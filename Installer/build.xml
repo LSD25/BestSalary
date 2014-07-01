@@ -12,6 +12,9 @@
         <echo>Maven version: ${maven-version}</echo>
         <echo>Ant version: ${ant-version}</echo>
         <echo>Git version: ${git-version}</echo>
+        <echo>Git repository: ${git-repository}</echo>
+        <echo>Git linux folder: ${git-folder-linux}</echo>
+        <echo>Git Windows folder: ${git-folder-windows}</echo>
     </target>
 
     <condition property="isWindows">
@@ -28,10 +31,7 @@
 
     <target name="change-attribute" if="isWindows"><!--attrib -r c:\folder\*.* /s -->
         <exec executable="cmd">
-            <arg value="attrib"/>
-            <arg value="-r"/>
-            <arg value="${basedir}/software/install/*.*"/>
-            <arg value="/s"/>
+            <arg line="/c attrib -r ${basedir}/software/install/*.* /s"/>
         </exec>
     </target>
 
@@ -137,8 +137,9 @@
     </target>
 
     <target name="start-tomcat-linux" if="isUnix">
-        <exec dir="${tomcat-home}/bin/" executable="/bin/bash">
-            <arg line="sudo startup.sh"/>
+        <exec dir="${tomcat-home}/bin/" executable="sh" os="Linux">
+            <arg value="-c"/>
+            <arg value="startup.sh"/>
         </exec>
     </target>
 
@@ -168,8 +169,9 @@
     </target>
 
     <target name="install-git-linux" if="isUnix">
-        <exec executable="/bin/bash">
-            <arg line="sudo apt-get install git"/>
+        <exec executable="sh" os="Linux">
+            <arg value="-c"/>
+            <arg value="apt-get install git"/>
         </exec>
     </target>
 
@@ -183,17 +185,56 @@
 
     <target name="git-clone-windows" depends="install-git" if="isWindows">
         <exec executable="cmd">
-            <arg line = "/c git clone ${git-repository}"/>
+            <arg line="/c git clone ${git-repository} ${git-folder-windows}"/>
         </exec>
     </target>
 
     <target name="git-clone-linux" depends="install-git" if="isUnix">
-        <exec executable="/bin/bash">
-            <arg line = "sudo git clone ${git-repository}"/>
+        <exec executable="sh" os="Linux">
+            <arg value="-c"/>
+            <arg value="git clone ${git-repository} ${git-folder-linux}"/>
         </exec>
     </target>
 
     <!-- end -->
+
+    <!-- Added MySQL repository for Debian -->
+
+    <target name="add-repository" if="isUnix">
+        <exec executable="sh" os="Linux">
+            <arg value="-c"/>
+            <arg value="dpkg -i ${basedir}/software/install/mysql-apt-config_0.2.1-1debian7_all.deb"/>
+        </exec>
+    </target>
+
+    <!-- end -->
+
+    <!-- Install Maven -->
+
+    <target name="install-maven">
+        <unzip src="${basedir}/software/install/apache-maven-${maven-version}-bin.zip"
+               dest="${basedir}/software/installed/" overwrite="true"/>
+    </target>
+
+    <!-- end -->
+
+    <!-- Install Ant -->
+
+    <target name="install-ant">
+        <unzip src="${basedir}/software/install/apache-ant-${ant-version}-bin.zip"
+               dest="${basedir}/software/installed/" overwrite="true"/>
+    </target>
+
+    <!-- end -->
+
+    <!-- Install enviroment -->
+
+    <target name="install-env">
+        <antcall target="install-maven"/>
+        <antcall target="install-ant"/>
+        <antcall target="install-tomcat"/>
+        <antcall target="git-clone"/>
+    </target>
 
     <!-- end -->
 
