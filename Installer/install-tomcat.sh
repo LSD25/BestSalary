@@ -1,1 +1,1 @@
-call ant -f ../build.xml install-tomcat
+ant install-tomcat

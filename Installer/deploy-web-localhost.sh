@@ -1,1 +1,1 @@
-call ant deploy-web-local
+ant deploy-web-local

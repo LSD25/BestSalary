@@ -1,1 +1,1 @@
-call ant deploy-ws-local
+ant deploy-ws-local

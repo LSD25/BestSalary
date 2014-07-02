@@ -1,1 +1,1 @@
-call ant deploy-ws-dev
+ant deploy-ws-dev

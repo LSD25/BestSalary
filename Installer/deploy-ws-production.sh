@@ -1,1 +1,1 @@
-call ant deploy-ws-prod
+ant deploy-ws-prod

@@ -1,1 +1,1 @@
-call ant deploy-web-prod
+ant deploy-web-prod

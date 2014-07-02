@@ -1,1 +1,1 @@
-call ant git-clone
+ant git-clone

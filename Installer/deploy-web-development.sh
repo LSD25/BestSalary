@@ -1,1 +1,1 @@
-call ant deploy-web-dev
+ant deploy-web-dev
