@@ -16,7 +16,12 @@ public class DevelopmentCondition extends ABasicConditional {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        return System.getenv().get(ENVIRONMENT).intern() == Environment.DEVELOPMNET.getEnv();
+        try {
+            return System.getenv().get(ENVIRONMENT).intern() == Environment.DEVELOPMNET.getEnv();
+        } catch (Exception exc) {
+            exc.getStackTrace();
+            throw new RuntimeException("Cannot load property for configuration database");
+        }
     }
 
 }
