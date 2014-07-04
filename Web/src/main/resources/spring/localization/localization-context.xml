@@ -18,7 +18,8 @@
         <property name="defaultLocale" value="en"/>
     </bean>
 
-    <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+    <bean id="handlerMapping"
+          class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="interceptors">
             <ref bean="localeChangeInterceptor"/>
         </property>
