@@ -11,7 +11,6 @@ import ua.com.salary.db.entity.User;
 import ua.com.salary.db.entity.UserRole;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,11 +30,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<UserRole> roles) {
-        Set<GrantedAuthority> setAuths = new HashSet<>();
-        for (UserRole role : roles) {
-            setAuths.add(new SimpleGrantedAuthority(role.getRole()));
-        }
-        return new ArrayList<>(setAuths);
+        List<GrantedAuthority> auth = new ArrayList<>();
+        roles.parallelStream().forEach(userRole -> auth.add(new SimpleGrantedAuthority(userRole.getRole())));
+        return auth;
     }
 
 }
