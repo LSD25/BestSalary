@@ -11,7 +11,8 @@
 
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
         <property name="definitions" value="classpath:/spring/**/tiles/tiles-layouts.xml"/>
-        <!--<property name="preparerFactoryClass" value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"/>-->
+        <property name="preparerFactoryClass"
+                  value="org.springframework.web.servlet.view.tiles3.SpringBeanPreparerFactory"/>
         <property name="checkRefresh" value="true"/>
     </bean>
 

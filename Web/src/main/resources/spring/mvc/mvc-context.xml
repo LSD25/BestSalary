@@ -13,6 +13,11 @@
 
     <context:component-scan base-package="ua.com.salary"/>
 
+    <!-- Tiles context -->
     <import resource="classpath:/spring/mvc/tiles/tiles-context.xml"/>
+
+    <!-- Localization context -->
+    <import resource="classpath:/spring/localization/localization-context.xml"/>
+
 
 </beans>

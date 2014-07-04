@@ -158,6 +158,14 @@
                 <version>${maven-jetty-plugin-version}</version>
                 <configuration>
                     <contextPath>/</contextPath>
+                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>jetty.port</name>
+                            <value>8081</value>
+                        </systemProperty>
+                    </systemProperties>
+                    <stopPort>8981</stopPort>
                 </configuration>
                 <dependencies>
                 </dependencies>

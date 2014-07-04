@@ -76,40 +76,40 @@
 
     <!-- TODO: added the value (tomcat home -->
     <target name="deploy-web-prod" depends="build-project">
-    <antcall target="deploy-web">
+        <antcall target="deploy-web">
             <param name="war" value=""/>
         </antcall>
     </target>
 
     <!-- TODO: added the value (tomcat home -->
     <target name="deploy-web-dev" depends="build-project">
-    <antcall target="deploy-web">
+        <antcall target="deploy-web">
             <param name="war" value=""/>
         </antcall>
     </target>
 
     <!-- TODO: added the value (tomcat home -->
     <target name="deploy-ws-prod" depends="build-project">
-    <antcall target="deploy-ws">
+        <antcall target="deploy-ws">
             <param name="war" value=""/>
         </antcall>
     </target>
 
     <!-- TODO: added the value (tomcat home -->
     <target name="deploy-ws-dev" depends="build-project">
-    <antcall target="deploy-ws">
+        <antcall target="deploy-ws">
             <param name="war" value=""/>
         </antcall>
     </target>
 
     <target name="deploy-ws-local" depends="build-project">
-    <antcall target="deploy-ws">
+        <antcall target="deploy-ws">
             <param name="war" value="${tomcat-home}/webapps/ROOT/"/>
         </antcall>
     </target>
 
     <target name="deploy-web-local" depends="build-project">
-    <antcall target="deploy-web">
+        <antcall target="deploy-web">
             <param name="war" value="${tomcat-home}/webapps/ROOT/"/>
         </antcall>
     </target>
