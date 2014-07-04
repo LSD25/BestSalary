@@ -14,8 +14,29 @@
     </definition>
 
     <definition name="home" extends="base.definition">
-        <put-attribute name="title" value="Home"/>
+        <put-attribute name="title" value="Home page"/>
         <put-attribute name="body" value="/WEB-INF/view/jsp/home/home.jsp"/>
+    </definition>
+
+    <definition name="login-page" extends="base.definition">
+        <put-attribute name="title" value="Login page"/>
+        <put-attribute name="body" value="/WEB-INF/view/jsp/login/login.jsp"/>
+    </definition>
+
+    <definition name="register-page" extends="base.definition">
+        <put-attribute name="title" value="Login page"/>
+        <put-attribute name="body" value="/WEB-INF/view/jsp/register/register.jsp"/>
+    </definition>
+
+    <definition name="welcome-page" extends="base.definition">
+        <put-attribute name="title" value="Welcome page"/>
+        <put-attribute name="body" value="/WEB-INF/view/jsp/welcome/welcome.jsp"/>
+    </definition>
+
+    <!-- TODO: added body -->
+    <definition name="access-denied" extends="base.definition">
+        <put-attribute name="title" value="Access denied"/>
+        <put-attribute name="body" value=""/>
     </definition>
 
 </tiles-definitions>    

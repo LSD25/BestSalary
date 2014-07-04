@@ -11,6 +11,12 @@
     <context:annotation-config/>
     <mvc:annotation-driven/>
 
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources/ directory -->
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/scripts/**" location="/scripts/"/>
+    <mvc:resources mapping="/styles/**" location="/styles/"/>
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
+
     <context:component-scan base-package="ua.com.salary"/>
 
     <!-- Tiles context -->

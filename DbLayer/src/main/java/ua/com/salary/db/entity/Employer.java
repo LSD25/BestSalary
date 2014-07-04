@@ -9,7 +9,7 @@ import javax.persistence.*;
  * @author Victor Zagnitko on 25.06.2014.
  */
 @Entity
-@Table(name = "employer")
+@Table
 @NamedQueries({
         @NamedQuery(name = "getEmployerById", query = "select object(p) from Employer p where p.id = :id"),
         @NamedQuery(name = "getEmployers", query = "select l from Employer l")
@@ -20,7 +20,7 @@ public class Employer extends ABasicEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "empl_id", nullable = false, length = 20)
+    @Column(name = "empl_id", nullable = false)
     private long id;
 
     @Column(name = "first_name", nullable = false, length = 100)

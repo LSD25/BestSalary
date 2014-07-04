@@ -9,6 +9,7 @@
         <tiles:insertAttribute name="title"/>
     </title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="${contextPath}/styles/main.css" type="text/css" rel="stylesheet"/>
 
 </head>
 

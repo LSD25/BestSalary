@@ -19,10 +19,6 @@ public class EmployerDao extends ABasicDao implements IEmployerDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmployerDao.class);
 
-    public EmployerDao() {
-        super();
-    }
-
     @Override
     public Employer getEmployerById(long id) throws ObjectNotFoundException {
         Session session = this.mSessionFactory.getCurrentSession();

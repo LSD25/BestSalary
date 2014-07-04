@@ -19,10 +19,6 @@ public class DepartmentDao extends ABasicDao implements IDepartmentDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(DepartmentDao.class);
 
-    public DepartmentDao() {
-        super();
-    }
-
     @Override
     public Department getDepartmentById(long id) throws ObjectNotFoundException {
         Session session = this.mSessionFactory.getCurrentSession();

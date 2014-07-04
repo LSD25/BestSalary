@@ -3,6 +3,13 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd">
 
+    <!-- MVC context -->
     <import resource="classpath:/spring/mvc/mvc-context.xml"/>
+
+    <!-- Security -->
+    <import resource="classpath:/spring/security/security-context.xml"/>
+
+    <!-- Ehcache -->
+    <import resource="classpath:/db/cache/ehcache-db-context.xml"/>
 
 </beans>

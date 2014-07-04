@@ -7,6 +7,6 @@
 
     <import resource="classpath:/spring/mapper-config.xml"/>
 
-    <import resource="classpath:/db/cache/ehcache-db-config.xml"/>
+    <import resource="classpath:/db/cache/ehcache-db-context.xml"/>
 
 </beans>

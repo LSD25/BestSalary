@@ -10,7 +10,7 @@ import java.util.Set;
  * @author Victor Zagnitko 25.06.2014.
  */
 @Entity
-@Table(name = "department")
+@Table
 @NamedQueries({
         @NamedQuery(name = "getDepartmentById", query = "select object (p) from Department p where p.id = :id"),
         @NamedQuery(name = "getDepartments", query = "select l from Department l")
@@ -21,7 +21,7 @@ public class Department extends ABasicEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "dep_id", nullable = false, length = 20)
+    @Column(name = "dep_id", nullable = false)
     private long id;
 
     @Column(name = "dep_name", nullable = false, length = 100)

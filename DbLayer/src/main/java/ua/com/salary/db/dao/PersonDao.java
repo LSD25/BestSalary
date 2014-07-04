@@ -19,10 +19,6 @@ public class PersonDao extends ABasicDao implements IPersonDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersonDao.class);
 
-    public PersonDao() {
-        super();
-    }
-
     @Override
     public void savePerson(Person person) {
         Session session = this.mSessionFactory.getCurrentSession();

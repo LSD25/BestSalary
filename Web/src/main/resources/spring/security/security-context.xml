@@ -1,0 +1,40 @@
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+    <global-method-security pre-post-annotations="enabled"/>
+    <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/home**" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/welcome**" access="hasRole('ROLE_USER')"/>
+        <form-login login-page="/login" default-target-url="/home" authentication-failure-url="/login?error"
+                    username-parameter="username" password-parameter="password"/>
+        <logout logout-success-url="/logout"/>
+        <csrf/>
+    </http>
+
+    <authentication-manager>
+        <authentication-provider user-service-ref="customUserDetailsService">
+            <password-encoder hash="md5">
+                <salt-source user-property="username"/>
+            </password-encoder>
+        </authentication-provider>
+        <authentication-provider ref="rememberMeAuthenticationProvider">
+        </authentication-provider>
+    </authentication-manager>
+
+    <beans:bean id="rememberMeAuthenticationProvider"
+                class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+        <beans:property name="key" value="4f4225782027c7afc93cd37e"/>
+    </beans:bean>
+
+    <beans:bean id="customUserDetailsService" class="ua.com.salary.web.services.CustomUserDetailsService"/>
+
+    <beans:bean id="md5PasswordEncoder"
+                class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
+
+</beans:beans>
