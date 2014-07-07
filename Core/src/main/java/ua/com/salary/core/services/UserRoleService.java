@@ -15,7 +15,7 @@ import ua.com.salary.db.entity.UserRole;
 @Service
 public class UserRoleService implements IUserRoleService {
 
-    @Autowired
+    @Autowired(required = false)
     private Md5PasswordEncoder mMd5PasswordEncoder;
 
     @Autowired

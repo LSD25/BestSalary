@@ -61,6 +61,16 @@ public class PersistenceConfig {
         this.mProperties.setProperty("maxActive", this.mMaxActiveConnection);
         this.mProperties.setProperty("format_sql", "true");
         this.mProperties.setProperty("current_session_context_class", "thread");
+        //Hibernate Envers
+        this.mProperties.setProperty("hibernate.ejb.event.post-insert", "org.hibernate.ejb.event.EJB3PostInsertEventListener," +
+                "org.hibernate.envers.event.AuditEventListener");
+        this.mProperties.setProperty("hibernate.ejb.event.post-update", "org.hibernate.ejb.event.EJB3PostUpdateEventListener," +
+                "org.hibernate.envers.event.AuditEventListener");
+        this.mProperties.setProperty("hibernate.ejb.event.post-delete", "org.hibernate.ejb.event.EJB3PostDeleteEventListener," +
+                "org.hibernate.envers.event.AuditEventListener");
+        this.mProperties.setProperty("hibernate.ejb.event.pre-collection-update", "org.hibernate.envers.event.AuditEventListener");
+        this.mProperties.setProperty("hibernate.ejb.event.pre-collection-remove", "org.hibernate.envers.event.AuditEventListener");
+        this.mProperties.setProperty("hibernate.ejb.event.post-collection-recreate", "org.hibernate.envers.event.AuditEventListener");
     }
 
     @Bean

@@ -2,3 +2,9 @@
 <%@ include file="../jsp-header.jsp" %>
 
 header
+
+<br/>
+<a href = "${contextPath}/?lang=ru">Русский</a>
+<br/>
+<a href = "${contextPath}/?lang=en">English</a>
+

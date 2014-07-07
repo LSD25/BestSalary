@@ -58,6 +58,24 @@
         </dependency>
 
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>${hibernate-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation-api-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator-version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>${javassist-version}</version>
@@ -252,10 +270,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-security-version>3.2.4.RELEASE</spring-security-version>
         <mysql-connector-java-version>5.1.31</mysql-connector-java-version>
-        <hibernate-version>4.2.13.Final</hibernate-version>
+        <hibernate-version>4.3.5.Final</hibernate-version>
         <javassist-version>3.18.2-GA</javassist-version>
         <commons-dbcp-vesrion>1.4</commons-dbcp-vesrion>
         <jackson-annotations-version>2.4.1</jackson-annotations-version>
+        <validation-api-version>1.1.0.Final</validation-api-version>
+        <hibernate-validator-version>5.1.1.Final</hibernate-validator-version>
+        <!--<hibernate-envers-version>4.3.5.Final</hibernate-envers-version>-->
         <!--<aspectj-version>1.8.1</aspectj-version>-->
         <!-- plugins -->
         <liquibase-maven-plugin-version>3.2.0</liquibase-maven-plugin-version>

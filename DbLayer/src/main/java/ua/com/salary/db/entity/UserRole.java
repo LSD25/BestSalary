@@ -2,6 +2,8 @@ package ua.com.salary.db.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.google.common.base.Objects;
+import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 
@@ -9,15 +11,17 @@ import javax.persistence.*;
  * @author Victor Zagnitko on 04.07.2014.
  */
 @Entity
+@Audited
 @Table(name = "user_role")
 public class UserRole extends ABasicEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "role_id", nullable = false)
+    @Column(name = "role_id")
     private long id;
 
-    @Column(name = "role", nullable = false)
+    @NotBlank
+    @Column(name = "role")
     private String role;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
