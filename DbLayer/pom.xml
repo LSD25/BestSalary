@@ -64,6 +64,24 @@
         </dependency>
 
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-orm</artifactId>
+            <version>${hibernate-search-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-search-infinispan</artifactId>
+            <version>${hibernate-search-version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
             <version>${validation-api-version}</version>
@@ -276,6 +294,7 @@
         <jackson-annotations-version>2.4.1</jackson-annotations-version>
         <validation-api-version>1.1.0.Final</validation-api-version>
         <hibernate-validator-version>5.1.1.Final</hibernate-validator-version>
+        <hibernate-search-version>5.0.0.Alpha4</hibernate-search-version>
         <!--<hibernate-envers-version>4.3.5.Final</hibernate-envers-version>-->
         <!--<aspectj-version>1.8.1</aspectj-version>-->
         <!-- plugins -->

@@ -26,13 +26,10 @@
         </tr>
         <tr>
             <td><spring:message code="reg.input.last"/>:</td>
-            <td>
             <td><form:input path="lastName"/></td>
-            </td>
         </tr>
         <tr>
             <td><spring:message code="reg.input.comp"/>:</td>
-            <td>
             <td><form:input path="companyName"/></td>
         </tr>
         <tr>
@@ -46,7 +43,7 @@
             <td>
                 <select>
                     <c:forEach var="shop" items="${shops}">
-                        <form:option value="${shop}">${shop}</form:option>
+                        <option value="${shop}">${shop}</option>
                     </c:forEach>
                 </select>
             </td>

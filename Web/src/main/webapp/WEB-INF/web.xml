@@ -68,9 +68,18 @@
         <param-value>classpath:/spring/app-web-config.xml</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>defaultHtmlEscape</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
     <servlet-mapping>
         <servlet-name>Web Dispatcher Servlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <session-config>
+        <session-timeout>43200</session-timeout>
+    </session-config>
 
 </web-app>

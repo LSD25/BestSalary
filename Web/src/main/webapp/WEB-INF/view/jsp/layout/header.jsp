@@ -4,7 +4,7 @@
 header
 
 <br/>
-<a href = "${contextPath}/?lang=ru">Русский</a>
+<a href="${contextPath}/?lang=ru">Русский</a>
 <br/>
-<a href = "${contextPath}/?lang=en">English</a>
+<a href="${contextPath}/?lang=en">English</a>
 

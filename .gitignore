@@ -3,3 +3,6 @@
 **/installed/**
 **.iml
 **.yml
+/Web/ua.com.salary.db.entity.User/segments.gen
+/Web/ua.com.salary.db.entity.User/segments_1
+/Web/ua.com.salary.db.entity.User/write.lock

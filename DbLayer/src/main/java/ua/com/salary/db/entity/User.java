@@ -3,16 +3,12 @@ package ua.com.salary.db.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.common.base.Objects;
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ua.com.salary.common.validate.ValidatePattern;
 
 import javax.persistence.*;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +24,7 @@ import java.util.Set;
         @NamedQuery(name = "findUserById", query = "select object(u) from User u where u.id = :id"),
         @NamedQuery(name = "findUserByName", query = "select object(u) from User u where u.username = :username")
 })
+@Indexed
 public class User extends ABasicEntity implements UserDetails {
 
     @Id
@@ -35,47 +32,33 @@ public class User extends ABasicEntity implements UserDetails {
     @Column(name = "user_id")
     private long id;
 
-    @NotBlank
-    @Size(min = 5)
     @Column(name = "user_name", unique = true)
+    @Field
     private String username;
 
-    @NotBlank
-    @Size(min = 2)
     @Column(name = "first_name")
     private String firstName;
 
-    @NotBlank
-    @Size(min = 2)
     @Column(name = "last_name")
     private String lastName;
 
-    @NotBlank
-    @Size(min = 3)
     @Column(name = "company_name")
     private String companyName;
 
-    @NotBlank
-    @Pattern(regexp = ValidatePattern.PHONE_NUMBER_VALIDATE_REG_EXP)
+    @Column(name = "email", unique = true, nullable = false)
+    @Field
+    private String email;
+
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @NotBlank
-    @Size(min = 6)
-    @Pattern(regexp = ValidatePattern.PASSWORD_VALIDATE_REG_EXP)
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Transient
-    @NotBlank
-    @Size(min = 6)
-    @Pattern(regexp = ValidatePattern.PASSWORD_VALIDATE_REG_EXP)
     private String confirmPassword;
 
-    @NotBlank
-    @Past
-    @DateTimeFormat(pattern = ValidatePattern.DATE_FORMAT_PATTERN)
-    @Column(name = "registration_date")
+    @Column(name = "registration_date", nullable = false)
     private Date registrationDate;
 
     @Column(name = "is_ebay")
@@ -104,26 +87,27 @@ public class User extends ABasicEntity implements UserDetails {
     private List<GrantedAuthority> authorities;
 
     public User(String username, String password, boolean isEbay, boolean isTrial, String firstName, String lastName,
-                String companyName, String phoneNumber) {
+                String companyName, String email, String phoneNumber) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.companyName = companyName;
+        this.email = email;
         this.phoneNumber = phoneNumber;
         this.isEbay = isEbay;
         this.isTrial = isTrial;
     }
 
     public User(String userName, String password, boolean isEbay, boolean isTrial, List<GrantedAuthority> authorities,
-                String firstName, String lastName, String companyName, String phoneNumber) {
-        this(userName, password, isEbay, isTrial, firstName, lastName, companyName, phoneNumber);
+                String firstName, String lastName, String companyName, String email, String phoneNumber) {
+        this(userName, password, isEbay, isTrial, firstName, lastName, companyName, email, phoneNumber);
         this.authorities = authorities;
     }
 
     public User(String userName, String password, boolean isEbay, boolean isTrial, Set<UserRole> userRole, String firstName,
-                String lastName, String companyName, String phoneNumber) {
-        this(userName, password, isEbay, isTrial, firstName, lastName, companyName, phoneNumber);
+                String lastName, String companyName, String email, String phoneNumber) {
+        this(userName, password, isEbay, isTrial, firstName, lastName, companyName, email, phoneNumber);
         this.userRole = userRole;
     }
 
@@ -259,6 +243,14 @@ public class User extends ABasicEntity implements UserDetails {
         this.confirmPassword = confirmPassword;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -276,23 +268,23 @@ public class User extends ABasicEntity implements UserDetails {
                 Objects.equal(this.isAccountNonBlocked, user.isAccountNonBlocked) &&
                 Objects.equal(this.isCredentialNotExpired, user.isCredentialNotExpired) &&
                 Objects.equal(this.isEbay, user.isEbay) && Objects.equal(this.isTrial, user.isTrial) &&
-                Objects.equal(this.registrationDate, user.registrationDate);
+                Objects.equal(this.registrationDate, user.registrationDate) && Objects.equal(this.email, user.email);
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(this.id, this.username, this.password, this.isEnabled, this.firstName, this.lastName,
                 this.companyName, this.phoneNumber, this.isAccountExpired, this.isAccountNonBlocked,
-                this.isCredentialNotExpired, this.isEbay, this.isTrial, this.registrationDate);
+                this.isCredentialNotExpired, this.isEbay, this.isTrial, this.registrationDate, this.email);
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this).addValue(this.id).addValue(this.username).addValue(this.password).
-                addValue(this.isEnabled).addValue(this.firstName).addValue(this.lastName).addValue(this.companyName).
-                addValue(this.phoneNumber).addValue(this.isAccountExpired).addValue(this.isAccountNonBlocked).
-                addValue(this.isCredentialNotExpired).addValue(this.isEbay).addValue(this.isTrial).
-                addValue(this.registrationDate).toString();
-    }
+//    @Override
+//    public String toString() {
+//        return Objects.toStringHelper(this).addValue(this.id).addValue(this.username).addValue(this.password).
+//                addValue(this.isEnabled).addValue(this.firstName).addValue(this.lastName).addValue(this.companyName).
+//                addValue(this.phoneNumber).addValue(this.isAccountExpired).addValue(this.isAccountNonBlocked).
+//                addValue(this.isCredentialNotExpired).addValue(this.isEbay).addValue(this.isTrial).
+//                addValue(this.registrationDate).addValue(this.email).toString();
+//    }
 
 }

@@ -17,7 +17,4 @@ public abstract class ABasicEntity implements Serializable {
     @Override
     public abstract int hashCode();
 
-    @Override
-    public abstract String toString();
-
 }
