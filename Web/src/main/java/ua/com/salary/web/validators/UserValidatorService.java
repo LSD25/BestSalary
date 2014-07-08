@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.com.salary.common.service.ValidateService;
-import ua.com.salary.common.validate.ValidatePattern;
+import ua.com.salary.common.regexp.ValidatePattern;
+import ua.com.salary.common.service.IValidateService;
 import ua.com.salary.db.entity.User;
 
 import java.util.Date;
@@ -29,7 +29,7 @@ public class UserValidatorService implements Validator {
     private MessageSource mMessageSource;
 
     @Autowired
-    private ValidateService mValidateService;
+    private IValidateService mValidateService;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -38,59 +38,54 @@ public class UserValidatorService implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        LOG.info("Start validate User");
+        LOG.info("Start regexp User");
         User user = (User) target;
         Preconditions.checkNotNull(user, "User must not null");
         Locale locale = LocaleContextHolder.getLocale();
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", null,
-                this.mMessageSource.getMessage("reg.valid.login.empty", null, locale));
-        if (user.getUsername().length() < 5) {
+                this.mMessageSource.getMessage("reg.valid.email.empty", null, locale));
+        if (!this.mValidateService.validate(ValidatePattern.EMAIL_VALIDATE_REG_EXP, user.getUsername())) {
             errors.rejectValue("username", null, null,
-                    this.mMessageSource.getMessage("reg.valid.login.size", null, locale));
+                    this.mMessageSource.getMessage("reg.valid.email.corr", null, locale));
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", null,
                 this.mMessageSource.getMessage("reg.valid.first.empty", null, locale));
-        if (user.getFirstName().length() < 2) {
+        if (user.getFirstName() != null && user.getFirstName().length() < 2) {
             errors.rejectValue("firstName", null, null,
                     this.mMessageSource.getMessage("reg.valid.first.size", null, locale));
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", null,
                 this.mMessageSource.getMessage("reg.valid.last.empty", null, locale));
-        if (user.getFirstName().length() < 2) {
+        if (user.getFirstName() != null && user.getFirstName().length() < 2) {
             errors.rejectValue("lastName", null, null,
                     this.mMessageSource.getMessage("reg.valid.last.size", null, locale));
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "companyName", null,
                 this.mMessageSource.getMessage("reg.valid.comp.empty", null, locale));
-        if (user.getCompanyName().length() < 3) {
+        if (user.getCompanyName() != null && user.getCompanyName().length() < 3) {
             errors.rejectValue("companyName", null, null,
                     this.mMessageSource.getMessage("reg.valid.comp.size", null, locale));
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", null,
-                this.mMessageSource.getMessage("reg.valid.email.empty", null, locale));
-        if (this.mValidateService.validate(ValidatePattern.EMAIL_VALIDATE_REG_EXP, user.getEmail())) {
-            errors.rejectValue("email", null, null,
-                    this.mMessageSource.getMessage("reg.valid.email.corr", null, locale));
-        }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phoneNumber", null,
                 this.mMessageSource.getMessage("reg.valid.phone.empty", null, locale));
-        if (this.mValidateService.validate(ValidatePattern.PHONE_NUMBER_VALIDATE_REG_EXP, user.getPhoneNumber())) {
+        if (!this.mValidateService.validate(ValidatePattern.PHONE_NUMBER_VALIDATE_REG_EXP, user.getPhoneNumber())) {
             errors.rejectValue("phoneNumber", null, null,
                     this.mMessageSource.getMessage("reg.valid.phone.corr", null, locale));
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", null,
                 this.mMessageSource.getMessage("reg.valid.pass.empty", null, locale));
-        if (this.mValidateService.validate(ValidatePattern.PASSWORD_VALIDATE_REG_EXP, user.getPassword())) {
+        if (!this.mValidateService.validate(ValidatePattern.PASSWORD_VALIDATE_REG_EXP, user.getPassword())) {
             errors.rejectValue("password", null, null,
                     this.mMessageSource.getMessage("reg.valid.pass.corr", null, locale));
         }
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", null,
                 this.mMessageSource.getMessage("reg.valid.pass.conf.empty", null, locale));
-        if (this.mValidateService.validate(ValidatePattern.PASSWORD_VALIDATE_REG_EXP, user.getPassword())) {
+        if (!this.mValidateService.validate(ValidatePattern.PASSWORD_VALIDATE_REG_EXP, user.getPassword())) {
             errors.rejectValue("confirmPassword", null, null,
                     this.mMessageSource.getMessage("reg.valid.pass.conf.corr", null, locale));
         }
-        if (user.getPassword().intern() != user.getConfirmPassword().intern()) {
+        if (user.getPassword() != null && user.getConfirmPassword() != null &&
+                user.getPassword().intern() != user.getConfirmPassword().intern()) {
             errors.rejectValue("confirmPassword", null, null,
                     this.mMessageSource.getMessage("reg.valid.pass.not.eq", null, locale));
         }

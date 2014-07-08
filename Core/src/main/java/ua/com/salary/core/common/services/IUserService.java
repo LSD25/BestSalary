@@ -7,5 +7,6 @@ import ua.com.salary.db.common.dao.IUserDao;
  */
 public interface IUserService extends IUserDao {
 
+    boolean isExistUser(String username);
 
 }

@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @author Victor Zagnitko on 08.07.2014.
  */
 @Service
-public class ValidateService {
+public class ValidateService implements IValidateService {
 
     /**
      * Validate password with regular expression
@@ -18,6 +18,7 @@ public class ValidateService {
      * @param validate password for validation
      * @return true valid password, false invalid password
      */
+    @Override
     public boolean validate(String regExp, String validate) {
         if (StringUtils.isEmpty(validate)) {
             return false;

@@ -4,15 +4,18 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ua.com.salary.core.common.services.IUserRoleService;
+import ua.com.salary.core.common.services.IUserService;
 import ua.com.salary.db.entity.Shop;
 import ua.com.salary.db.entity.User;
+import ua.com.salary.db.entity.UserRole;
+import ua.com.salary.web.common.security.Roles;
 import ua.com.salary.web.validators.UserValidatorService;
 
 import javax.validation.Valid;
@@ -28,7 +31,7 @@ public class RegisterController {
     private static final Logger LOG = LoggerFactory.getLogger(RegisterController.class);
 
     @Autowired
-    private IUserRoleService mUserRoleService;
+    private IUserService mUserService;
 
     @Autowired
     private UserValidatorService mUserValidatorService;
@@ -48,8 +51,22 @@ public class RegisterController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/is-exists", method = RequestMethod.GET)
+    public Map<String, ?> isExistsUser(@RequestParam String username) {
+        Map<String, Boolean> response = new LinkedHashMap<>();
+        boolean isExistsUser = false;
+        try {
+            isExistsUser = this.mUserService.isExistUser(username);
+        } catch (Exception exc) {
+            exc.getStackTrace();
+        }
+        response.put("isExistsUser", isExistsUser);
+        return response;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Map<String, ?> registerUser(@Valid User user, BindingResult result) {
+    public Map<String, ?> registerUser(@RequestBody @Valid User user, BindingResult result) {
         Map<String, Object> response = new LinkedHashMap<>();
         try {
             LOG.info("Start registration user: " + user.getUsername());
@@ -59,16 +76,17 @@ public class RegisterController {
                     response.put(((FieldError) objectError).getField(), objectError.getDefaultMessage());
                     return objectError;
                 }).forEachOrdered(o -> LOG.info("Error with field: " + o));
+                return response;
             }
-//            User user = new User(username, password, false, true, true, true, "first", "last", "company", "phone",);
-//            UserRole userRole = new UserRole(Roles.ROLE_USER.name(), user);
-//            Set<UserRole> roles = new HashSet<>();
-//            roles.add(userRole);
-//            this.mUserRoleService.saveUserRole(userRole);
-//            return true;
+            UserRole userRole = new UserRole(Roles.ROLE_USER.name(), user);
+            Set<UserRole> roles = new HashSet<>();
+            roles.add(userRole);
+            user.setUserRoleSet(roles);
+            this.mUserService.saveUser(user);
         } catch (Exception exc) {
             exc.getStackTrace();
         }
+        response.put("success", HttpStatus.OK.getReasonPhrase());
         return response;
     }
 

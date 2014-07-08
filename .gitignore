@@ -6,3 +6,7 @@
 /Web/ua.com.salary.db.entity.User/segments.gen
 /Web/ua.com.salary.db.entity.User/segments_1
 /Web/ua.com.salary.db.entity.User/write.lock
+/Web/ua.com.salary.db.entity.User/*.cfe
+/Web/ua.com.salary.db.entity.User/*.cfs
+/Web/ua.com.salary.db.entity.User/*.si
+/Web/ua.com.salary.db.entity.User/*
