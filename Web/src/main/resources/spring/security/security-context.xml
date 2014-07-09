@@ -7,25 +7,52 @@
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
     <global-method-security pre-post-annotations="enabled"/>
-    <http auto-config="true" use-expressions="true">
+    <http auto-config="false" use-expressions="true" entry-point-ref="loginUrlAuthenticationEntryPoint">
+        <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/home**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/welcome**" access="hasRole('ROLE_USER')"/>
-        <form-login login-page="/login" default-target-url="/home" authentication-failure-url="/login?error"
-                    username-parameter="username" password-parameter="password"/>
-        <logout logout-success-url="/logout"/>
-        <!--<csrf/>-->
+        <custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
+        <remember-me user-service-ref="customUserDetailsService" use-secure-cookie="true"
+                     key="4f4225782027c7afc93cd37e"/>
+        <logout invalidate-session="true" logout-success-url="/login" logout-url="/logout" />
+        <csrf/>
     </http>
 
-    <authentication-manager>
+    <beans:bean id="loginUrlAuthenticationEntryPoint"
+                class="ua.com.salary.web.login.CustomLoginUrlAuthenticationEntryPoint">
+        <beans:property name="loginFormUrl" value="/login"/>
+    </beans:bean>
+
+    <beans:bean id="authenticationFilter"
+                class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+        <beans:property name="authenticationManager" ref="authenticationManager"/>
+        <beans:property name="filterProcessesUrl" value="/j_spring_security_check"/>
+        <beans:property name="authenticationFailureHandler" ref="failureHandler"/>
+        <beans:property name="authenticationSuccessHandler" ref="successHandler"/>
+        <beans:property name="rememberMeServices" ref="rememberMeServices"/>
+    </beans:bean>
+
+    <beans:bean id="successHandler"
+                class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler">
+        <beans:property name="defaultTargetUrl" value="/welcome"/>
+    </beans:bean>
+
+    <beans:bean id="failureHandler" class="ua.com.salary.web.login.AjaxAuthenticationFailureHandler"/>
+
+    <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="customUserDetailsService">
             <password-encoder hash="md5">
                 <salt-source user-property="username"/>
             </password-encoder>
         </authentication-provider>
-        <authentication-provider ref="rememberMeAuthenticationProvider">
-        </authentication-provider>
+        <authentication-provider ref="rememberMeAuthenticationProvider"/>
     </authentication-manager>
+
+    <beans:bean id="rememberMeServices"
+                class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+        <beans:property name="userDetailsService" ref="customUserDetailsService"/>
+        <beans:property name="key" value="4f4225782027c7afc93cd37e"/>
+    </beans:bean>
 
     <beans:bean id="rememberMeAuthenticationProvider"
                 class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
@@ -34,7 +61,6 @@
 
     <beans:bean id="customUserDetailsService" class="ua.com.salary.web.services.CustomUserDetailsService"/>
 
-    <beans:bean id="md5PasswordEncoder"
-                class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>
+    <beans:bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
 
 </beans:beans>

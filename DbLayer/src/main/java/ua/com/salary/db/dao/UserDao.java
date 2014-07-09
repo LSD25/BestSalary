@@ -1,5 +1,6 @@
 package ua.com.salary.db.dao;
 
+import com.google.common.base.Preconditions;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -39,6 +40,7 @@ public class UserDao extends ABasicDao implements IUserDao {
 
     @Override
     public void saveUser(User user) {
+        Preconditions.checkNotNull(user, "User to save must not null");
         Session session = this.mSessionFactory.getCurrentSession();
         session.save(user);
     }

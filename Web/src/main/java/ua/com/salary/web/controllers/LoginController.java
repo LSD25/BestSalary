@@ -17,7 +17,7 @@ public class LoginController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout() {
-        return "login-page";
+        return "redirect:/j_spring_security_logout";
     }
 
 }

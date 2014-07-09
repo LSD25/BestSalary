@@ -27,14 +27,12 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional
-    @Cacheable(cacheName = "dbCache")
     public User findUserById(long id) throws UsernameNotFoundException {
         return this.mUserDao.findUserById(id);
     }
 
     @Override
     @Transactional
-    @Cacheable(cacheName = "dbCache")
     public User findUserByName(String name) throws UsernameNotFoundException {
         return this.mUserDao.findUserByName(name);
     }
@@ -49,6 +47,8 @@ public class UserService implements IUserService {
     }
 
     @Override
+    @Transactional
+    @Cacheable(cacheName = "dbCache")
     public boolean isExistUser(String username) throws UsernameNotFoundException {
         Preconditions.checkNotNull(username, "Username for check must not null");
         Preconditions.checkArgument(!username.isEmpty(), "Username for check is empty");

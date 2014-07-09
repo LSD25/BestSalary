@@ -2,7 +2,7 @@
 <%@ include file="../jsp-header.jsp" %>
 <div id="login-box">
 
-    <h3>Login with Username and Password</h3>
+    <h3><spring:message code="log.form.name"/></h3>
 
     <c:if test="${not empty error}">
         <div class="error">${error}</div>
@@ -11,28 +11,37 @@
         <div class="msg">${msg}</div>
     </c:if>
 
-    <form name='loginForm'
-          action="<c:url value='j_spring_security_check' />" method='POST'>
+    <form name='loginForm' action="${contextPath}/j_spring_security_check" method='POST'>
 
         <table>
             <tr>
-                <td>User:</td>
-                <td><input type='text' name='username' value=''></td>
+                <td><spring:message code="log.login"/>:</td>
+                <td><input type='text' name='j_username'></td>
             </tr>
             <tr>
-                <td>Password:</td>
-                <td><input type='password' name='password'/></td>
+                <td><spring:message code="log.pass"/>:</td>
+                <td><input type='password' name='j_password'/></td>
             </tr>
             <tr>
                 <td colspan='2'>
                     <input name="submit" type="submit" value="submit"/>
                 </td>
                 <td>
-                    <a href="${contextPath}/register/user">register</a>
+                    <a href="${contextPath}/register/user"><spring:message code="log.reg.btn"/></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <spring:message code="log.check.rem"/>
+                </td>
+                <td>
+                    <input type="checkbox" class="LoginCheckbox" name="_spring_security_remember_me"
+                           id="donot_remember_me" name="donot_remember_me">
                 </td>
             </tr>
         </table>
 
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
+
 </div>

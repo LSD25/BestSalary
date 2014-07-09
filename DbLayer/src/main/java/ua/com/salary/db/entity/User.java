@@ -71,7 +71,7 @@ public class User extends ABasicEntity implements UserDetails {
     private Set<UserRole> userRole;
 
     @Column(name = "is_account_expired")
-    private boolean isAccountExpired;
+    private boolean isAccountExpired = true;
 
     @Column(name = "is_account_non_blocked")
     private boolean isAccountNonBlocked = true;

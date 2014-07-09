@@ -51,7 +51,7 @@ public class RegisterController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/is-exists", method = RequestMethod.GET)
+    @RequestMapping(value = "/is-exists", method = RequestMethod.POST)
     public Map<String, ?> isExistsUser(@RequestParam String username) {
         Map<String, Boolean> response = new LinkedHashMap<>();
         boolean isExistsUser = false;
